@@ -13,7 +13,6 @@ const App = props => {
       .filter((item, index, array) => array.indexOf(item) === index);
   }
   const years = getUniqFromObjectKey(data, "Year");
-  console.log(years);
   const countries = getUniqFromObjectKey(data, "Country");
   let min = null;
   let max = null;
@@ -38,6 +37,7 @@ const App = props => {
   ];
 
   const [category, setCategory] = useState(filters[0].category);
+  const [activeCountries, setActiveCountries] = useState([]);
 
   const parsedData = countries.map(country => {
     const countryData = data
@@ -73,12 +73,25 @@ const App = props => {
 
     return {
       country: country,
-      data: countryData
+      data: countryData,
+      active: activeCountries.indexOf(country) !== -1
     };
   });
 
   const onChangeCategoryHandler = category => {
     setCategory(category);
+  };
+
+  const onChangeCountriesHandler = (country, checked) => {
+    let updatedActiveCountries = [];
+    if (checked) {
+      updatedActiveCountries = [...activeCountries, country];
+    } else {
+      updatedActiveCountries = activeCountries.filter(
+        activeCountry => activeCountry !== country
+      );
+    }
+    setActiveCountries(updatedActiveCountries);
   };
 
   const getCategoryName = category => {
@@ -111,6 +124,7 @@ const App = props => {
         max={max}
         years={years}
         category={props.category}
+        onChangeCountriesHandler={onChangeCountriesHandler}
       />
     </>
   );

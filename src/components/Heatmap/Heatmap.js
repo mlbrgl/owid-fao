@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Table, TableBody } from "semantic-ui-react";
 import styles from "./Heatmap.module.css";
+import CountryFilter from "../CountryFilter/CountryFilter";
 
 const Heatmap = props => {
   //https://gist.github.com/mlocati/7210513
@@ -26,26 +27,42 @@ const Heatmap = props => {
     var h = r * 0x10000 + g * 0x100 + b * 0x1;
     return "#" + ("000000" + h.toString(16)).slice(-6);
   }
+
+  const sortedData = [...props.data].sort(
+    (countryDataA, countryDataB) => +countryDataB.active - +countryDataA.active
+  );
+
   return (
     <Table>
       <TableBody>
-        {props.data.map(countryData => {
+        {sortedData.map(countryData => {
           return (
             <Table.Row key={`${countryData.country}-${props.category}`}>
-              <Table.Cell>{countryData.country}</Table.Cell>
-              {props.years.map(year => {
-                const count = countryData.data
-                  .filter(data => data.year === year)
-                  .map(data => data.count);
-                return (
-                  <Table.Cell
-                    key={`${countryData.country}-${year}-${props.category}`}
-                    style={{
-                      backgroundColor: perc2color(count, props.min, props.max)
-                    }}
-                  />
-                );
-              })}
+              <Table.Cell>
+                <CountryFilter
+                  label={countryData.country}
+                  onChangeHandler={props.onChangeCountriesHandler}
+                />
+              </Table.Cell>
+              {countryData.active
+                ? props.years.map(year => {
+                    const count = countryData.data
+                      .filter(data => data.year === year)
+                      .map(data => data.count);
+                    return (
+                      <Table.Cell
+                        key={`${countryData.country}-${year}-${props.category}`}
+                        style={{
+                          backgroundColor: perc2color(
+                            count,
+                            props.min,
+                            props.max
+                          )
+                        }}
+                      />
+                    );
+                  })
+                : null}
             </Table.Row>
           );
         })}
