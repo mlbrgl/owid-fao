@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import "semantic-ui-css/semantic.min.css";
 import Heatmap from "../components/Heatmap/Heatmap";
 import data from "../data/diet.json";
+import CategoryFilter from "../components/CategoryFilter/CategoryFilter";
 
 const App = props => {
   function getUniqFromObjectKey(data, key) {
@@ -15,19 +16,44 @@ const App = props => {
   let min = null;
   let max = null;
 
+  const filters = [
+    {
+      label: "Animal",
+      category: "animal"
+    },
+    {
+      label: "Plant",
+      category: "plant"
+    },
+    {
+      label: "Sugar",
+      category: "sugar"
+    },
+    {
+      label: "Alcoholic beverages",
+      category: "alcohol"
+    }
+  ];
+
+  const [category, setCategory] = useState(filters[0].category);
+
   const parsedData = countries.map(country => {
     const countryData = data
       .filter(row => row.Country === country)
       .map(row => {
         let count = null;
-        if (props.category === "vegetables") {
+        if (category === "plant") {
           count =
             row["Cereals and Grains"] +
             row["Pulses"] +
             row["Starchy Roots"] +
             row["Fruit and Vegetables"];
-        } else if (props.category === "animal") {
+        } else if (category === "animal") {
           count = row["Meat"] + row["Dairy & Eggs"];
+        } else if (category === "sugar") {
+          count = row["Sugar"];
+        } else if (category === "alcohol") {
+          count = row["Alcoholic Beverages"];
         }
 
         if (min === null) {
@@ -49,9 +75,18 @@ const App = props => {
     };
   });
 
+  const onChangeCategoryHandler = category => {
+    setCategory(category);
+  };
+
   return (
     <>
       <h1>OWID</h1>
+      <CategoryFilter
+        filters={filters}
+        onChangeHandler={onChangeCategoryHandler}
+        category={category}
+      />
       <Heatmap
         data={parsedData}
         min={min}
