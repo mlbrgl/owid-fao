@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form, Radio } from "semantic-ui-react";
+import styles from "./CategoryFilter.module.css";
 
 const CategoryFilter = props => {
   const onChangeHandler = (event, { value }) => {
-    // console.log(value);
     props.onChangeHandler(value);
   };
 
@@ -12,7 +12,7 @@ const CategoryFilter = props => {
     <Form>
       {props.filters.map(filter => {
         return (
-          <Form.Field key={filter.category}>
+          <Form.Field key={filter.category} className={styles.field}>
             <Radio
               label={filter.label}
               name="filters"

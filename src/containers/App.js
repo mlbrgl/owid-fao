@@ -4,6 +4,7 @@ import "semantic-ui-css/semantic.min.css";
 import Heatmap from "../components/Heatmap/Heatmap";
 import data from "../data/diet.json";
 import CategoryFilter from "../components/CategoryFilter/CategoryFilter";
+import { Message } from "semantic-ui-react";
 
 const App = props => {
   function getUniqFromObjectKey(data, key) {
@@ -12,6 +13,7 @@ const App = props => {
       .filter((item, index, array) => array.indexOf(item) === index);
   }
   const years = getUniqFromObjectKey(data, "Year");
+  console.log(years);
   const countries = getUniqFromObjectKey(data, "Country");
   let min = null;
   let max = null;
@@ -79,9 +81,25 @@ const App = props => {
     setCategory(category);
   };
 
+  const getCategoryName = category => {
+    return filters.filter(el => el.category === category).map(el => el.label);
+  };
+
   return (
     <>
-      <h1>OWID</h1>
+      <h1>Evolution of diet composition between 1961 and 2013 </h1>
+      <Message>
+        <Message.Header>How to read</Message.Header>
+        <p>
+          The color scale shows the amount of calories consumed in the selected
+          category ({getCategoryName(category)}).
+        </p>
+        <p>
+          <strong>Red is less, green is more.</strong> An evolution from red to
+          green shows an increase in the amount of calories consumed in the
+          current category, and vice-versa.
+        </p>
+      </Message>
       <CategoryFilter
         filters={filters}
         onChangeHandler={onChangeCategoryHandler}
