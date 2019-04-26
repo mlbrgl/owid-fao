@@ -45,18 +45,23 @@ const Heatmap = props => {
               </Table.Cell>
               {countryData.active
                 ? props.years.map(year => {
-                    const count = countryData.data
+                    const countArr = countryData.data
                       .filter(data => data.year === year)
                       .map(data => data.count);
+
+                    const backgroundColor = countArr.length
+                      ? perc2color(
+                          countArr[0],
+                          props.bounds.min,
+                          props.bounds.max
+                        )
+                      : "lightgrey";
+
                     return (
                       <Table.Cell
                         key={year}
                         style={{
-                          backgroundColor: perc2color(
-                            count,
-                            props.bounds.min,
-                            props.bounds.max
-                          )
+                          backgroundColor: backgroundColor
                         }}
                       />
                     );
