@@ -12,12 +12,12 @@ const CategoryFilter = props => {
     <Form>
       {props.categories.map(category => {
         return (
-          <Form.Field key={category} className={styles.field}>
+          <Form.Field key={category.name} className={styles.field}>
             <Radio
-              label={category}
+              label={category.name}
               name="filters"
-              value={category}
-              checked={props.activeCategory === category}
+              value={category.name}
+              checked={props.activeCategory.name === category.name}
               onChange={onChangeHandler}
             />
           </Form.Field>
@@ -28,8 +28,14 @@ const CategoryFilter = props => {
 };
 
 CategoryFilter.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeCategory: PropTypes.string.isRequired,
+  categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string
+    })
+  ).isRequired,
+  activeCategory: PropTypes.shape({
+    name: PropTypes.string
+  }).isRequired,
   onChangeHandler: PropTypes.func.isRequired
 };
 

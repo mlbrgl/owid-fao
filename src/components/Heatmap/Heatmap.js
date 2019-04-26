@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Table, TableBody } from "semantic-ui-react";
-import styles from "./Heatmap.module.css";
 import CountryFilter from "../CountryFilter/CountryFilter";
 
 const Heatmap = props => {
@@ -55,8 +54,8 @@ const Heatmap = props => {
                         style={{
                           backgroundColor: perc2color(
                             count,
-                            props.min,
-                            props.max
+                            props.bounds.min,
+                            props.bounds.max
                           )
                         }}
                       />
@@ -80,12 +79,14 @@ Heatmap.propTypes = {
           year: PropTypes.number.isRequired,
           count: PropTypes.number.isRequired
         })
-      ).isRequired,
+      ),
       active: PropTypes.bool.isRequired
     })
   ).isRequired,
-  max: PropTypes.number.isRequired,
-  min: PropTypes.number.isRequired,
+  bounds: PropTypes.shape({
+    min: PropTypes.number,
+    max: PropTypes.number
+  }).isRequired,
   onChangeCountriesHandler: PropTypes.func.isRequired,
   years: PropTypes.arrayOf(PropTypes.number).isRequired
 };
