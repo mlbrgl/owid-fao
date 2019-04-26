@@ -6,7 +6,7 @@ import data from "../data/diet.json";
 import CategoryFilter from "../components/CategoryFilter/CategoryFilter";
 import { Message } from "semantic-ui-react";
 
-const App = props => {
+const App = () => {
   function getUniqFromObjectKey(data, key) {
     return data
       .map(row => row[key])
@@ -17,26 +17,13 @@ const App = props => {
   let min = null;
   let max = null;
 
-  const filters = [
-    {
-      label: "Animal",
-      category: "animal"
-    },
-    {
-      label: "Plant",
-      category: "plant"
-    },
-    {
-      label: "Sugar",
-      category: "sugar"
-    },
-    {
-      label: "Alcoholic beverages",
-      category: "alcohol"
-    }
-  ];
+  const ANIMAL = "Animal";
+  const PLANT = "Plant";
+  const SUGAR = "Sugar";
+  const ALCOHOL = "Alcoholic beverages";
+  const categories = [ANIMAL, PLANT, SUGAR, ALCOHOL];
 
-  const [category, setCategory] = useState(filters[0].category);
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
   const [activeCountries, setActiveCountries] = useState([]);
 
   const parsedData = countries.map(country => {
@@ -44,17 +31,17 @@ const App = props => {
       .filter(row => row.Country === country)
       .map(row => {
         let count = null;
-        if (category === "plant") {
+        if (activeCategory === PLANT) {
           count =
             row["Cereals and Grains"] +
             row["Pulses"] +
             row["Starchy Roots"] +
             row["Fruit and Vegetables"];
-        } else if (category === "animal") {
+        } else if (activeCategory === ANIMAL) {
           count = row["Meat"] + row["Dairy & Eggs"];
-        } else if (category === "sugar") {
+        } else if (activeCategory === SUGAR) {
           count = row["Sugar"];
-        } else if (category === "alcohol") {
+        } else if (activeCategory === ALCOHOL) {
           count = row["Alcoholic Beverages"];
         }
 
@@ -79,7 +66,7 @@ const App = props => {
   });
 
   const onChangeCategoryHandler = category => {
-    setCategory(category);
+    setActiveCategory(category);
   };
 
   const onChangeCountriesHandler = (country, checked) => {
@@ -94,10 +81,6 @@ const App = props => {
     setActiveCountries(updatedActiveCountries);
   };
 
-  const getCategoryName = category => {
-    return filters.filter(el => el.category === category).map(el => el.label);
-  };
-
   return (
     <>
       <h1>Evolution of diet composition between 1961 and 2013 </h1>
@@ -105,7 +88,7 @@ const App = props => {
         <Message.Header>How to read</Message.Header>
         <p>
           The color scale shows the amount of calories consumed in the selected
-          category ({getCategoryName(category)}).
+          category ({activeCategory}).
         </p>
         <p>
           <strong>Red is less, green is more.</strong> An evolution from red to
@@ -114,16 +97,15 @@ const App = props => {
         </p>
       </Message>
       <CategoryFilter
-        filters={filters}
+        categories={categories}
         onChangeHandler={onChangeCategoryHandler}
-        category={category}
+        activeCategory={activeCategory}
       />
       <Heatmap
         data={parsedData}
         min={min}
         max={max}
         years={years}
-        category={props.category}
         onChangeCountriesHandler={onChangeCountriesHandler}
       />
     </>

@@ -37,7 +37,7 @@ const Heatmap = props => {
       <TableBody>
         {sortedData.map(countryData => {
           return (
-            <Table.Row key={`${countryData.country}-${props.category}`}>
+            <Table.Row key={countryData.country}>
               <Table.Cell>
                 <CountryFilter
                   label={countryData.country}
@@ -51,7 +51,7 @@ const Heatmap = props => {
                       .map(data => data.count);
                     return (
                       <Table.Cell
-                        key={`${countryData.country}-${year}-${props.category}`}
+                        key={year}
                         style={{
                           backgroundColor: perc2color(
                             count,
@@ -71,6 +71,23 @@ const Heatmap = props => {
   );
 };
 
-Heatmap.propTypes = {};
+Heatmap.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      country: PropTypes.string.isRequired,
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          year: PropTypes.number.isRequired,
+          count: PropTypes.number.isRequired
+        })
+      ).isRequired,
+      active: PropTypes.bool.isRequired
+    })
+  ).isRequired,
+  max: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  onChangeCountriesHandler: PropTypes.func.isRequired,
+  years: PropTypes.arrayOf(PropTypes.number).isRequired
+};
 
 export default Heatmap;

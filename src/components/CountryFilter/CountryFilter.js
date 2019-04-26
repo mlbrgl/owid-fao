@@ -17,6 +17,9 @@ const CountryFilter = props => {
   );
 };
 
-CountryFilter.propTypes = {};
+CountryFilter.propTypes = {
+  label: PropTypes.string.isRequired,
+  onChangeHandler: PropTypes.func.isRequired
+};
 
 export default CountryFilter;
