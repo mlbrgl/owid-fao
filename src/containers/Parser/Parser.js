@@ -3,7 +3,7 @@ import data from "../../data/diet.json";
 const ANIMAL = "Animal";
 const PLANT = "Plant";
 const SUGAR = "Sugar";
-const ALCOHOL = "Alcoholic beverages";
+const ALCOHOL = "Alcoholic Beverages";
 
 const categories = [
   {
