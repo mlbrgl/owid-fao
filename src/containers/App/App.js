@@ -5,7 +5,7 @@ import {
   getCategoryBounds
 } from "./../Parser/Parser";
 import {} from "./../Parser/Parser";
-import React, { useState, useMemo } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import "semantic-ui-css/semantic.min.css";
 import Heatmap from "../../components/Heatmap/Heatmap";
@@ -13,9 +13,16 @@ import Heatmap from "../../components/Heatmap/Heatmap";
 import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
 import { Message } from "semantic-ui-react";
 
-const App = () => {
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
-  const [activeCountries, setActiveCountries] = useState([]);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    const activeCategory = categories[0];
+    const activeCountries = [];
+    this.state = {
+      activeCategory,
+      activeCountries
+    };
+  }
 
   // [{
   //   country:
@@ -25,57 +32,62 @@ const App = () => {
   //     category:
   //   }]
   // }]
-  const activeData = getActiveData(activeCountries, activeCategory);
-  const categoryBounds = useMemo(() => getCategoryBounds(activeCategory), [
-    activeCategory
-  ]);
 
-  const onChangeCategoryHandler = categoryName => {
-    setActiveCategory(
-      categories.filter(category => category.name === categoryName)[0]
-    );
+  onChangeCategoryHandler = categoryName => {
+    const activeCategory = categories.filter(
+      category => category.name === categoryName
+    )[0];
+    this.setState({ activeCategory });
   };
 
-  const onChangeCountriesHandler = (country, checked) => {
-    let updatedActiveCountries = [];
+  onChangeCountriesHandler = (country, checked) => {
+    let activeCountries = [];
     if (checked) {
-      updatedActiveCountries = [...activeCountries, country];
+      activeCountries = [...this.state.activeCountries, country];
     } else {
-      updatedActiveCountries = activeCountries.filter(
+      activeCountries = this.state.activeCountries.filter(
         activeCountry => activeCountry !== country
       );
     }
-    setActiveCountries(updatedActiveCountries);
+    this.setState({ activeCountries });
   };
 
-  return (
-    <>
-      <h1>Evolution of diet composition between 1961 and 2013 </h1>
-      <Message>
-        <Message.Header>How to read</Message.Header>
-        <p>
-          The color scale shows the amount of calories consumed in the selected
-          category ({activeCategory.name}).
-        </p>
-        <p>
-          <strong>Red is less, green is more.</strong> An evolution from red to
-          green shows an increase in the amount of calories consumed in the
-          current category, and vice-versa.
-        </p>
-      </Message>
-      <CategoryFilter
-        categories={categories}
-        onChangeHandler={onChangeCategoryHandler}
-        activeCategory={activeCategory}
-      />
-      <Heatmap
-        data={activeData}
-        bounds={categoryBounds}
-        years={years}
-        onChangeCountriesHandler={onChangeCountriesHandler}
-      />
-    </>
-  );
-};
+  render() {
+    const categoryBounds = getCategoryBounds(this.state.activeCategory);
+    const activeData = getActiveData(
+      this.state.activeCountries,
+      this.state.activeCategory
+    );
+
+    return (
+      <>
+        <h1>Evolution of diet composition between 1961 and 2013 </h1>
+        <Message>
+          <Message.Header>How to read</Message.Header>
+          <p>
+            The color scale shows the amount of calories consumed in the
+            selected category ({this.state.activeCategory.name}).
+          </p>
+          <p>
+            <strong>Red is less, green is more.</strong> An evolution from red
+            to green shows an increase in the amount of calories consumed in the
+            current category, and vice-versa.
+          </p>
+        </Message>
+        <CategoryFilter
+          categories={categories}
+          onChangeHandler={this.onChangeCategoryHandler}
+          activeCategory={this.state.activeCategory}
+        />
+        <Heatmap
+          data={activeData}
+          bounds={categoryBounds}
+          years={years}
+          onChangeCountriesHandler={this.onChangeCountriesHandler}
+        />
+      </>
+    );
+  }
+}
 
 export default App;

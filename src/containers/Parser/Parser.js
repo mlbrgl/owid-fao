@@ -1,4 +1,5 @@
 import data from "../../data/diet.json";
+import memoize from "memoize-one";
 
 const ANIMAL = "Animal";
 const PLANT = "Plant";
@@ -64,7 +65,7 @@ const getActiveData = (activeCountries, activeCategory) => {
   });
 };
 
-const getCategoryBounds = category => {
+const getCategoryBounds = memoize(category => {
   let min = getCategoryCount(data[0], category);
   let max = getCategoryCount(data[0], category);
 
@@ -75,6 +76,6 @@ const getCategoryBounds = category => {
   });
 
   return { min, max };
-};
+});
 
 export { countries, categories, years, getActiveData, getCategoryBounds };

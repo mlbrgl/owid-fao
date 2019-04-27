@@ -22,4 +22,4 @@ CountryFilter.propTypes = {
   onChangeHandler: PropTypes.func.isRequired
 };
 
-export default CountryFilter;
+export default React.memo(CountryFilter, () => true);
