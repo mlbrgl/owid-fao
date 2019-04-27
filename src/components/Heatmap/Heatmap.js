@@ -41,6 +41,7 @@ const Heatmap = props => {
                 <CountryFilter
                   label={countryData.country}
                   onChangeHandler={props.onChangeCountriesHandler}
+                  active={countryData.active}
                 />
               </td>
               {countryData.active

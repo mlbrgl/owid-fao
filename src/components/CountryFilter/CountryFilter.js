@@ -12,6 +12,7 @@ const CountryFilter = props => {
       label={props.label}
       onChange={onChangeHandler}
       value={props.label}
+      checked={props.active}
       toggle
     />
   );
@@ -19,7 +20,8 @@ const CountryFilter = props => {
 
 CountryFilter.propTypes = {
   label: PropTypes.string.isRequired,
-  onChangeHandler: PropTypes.func.isRequired
+  onChangeHandler: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired
 };
 
-export default React.memo(CountryFilter, () => true);
+export default React.memo(CountryFilter);
