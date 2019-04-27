@@ -1,0 +1,12 @@
+.table {
+  width: 100%;
+  border-spacing: 1px 5px;
+}
+
+.row {
+  height: 2.5rem;
+}
+
+.countryFilter {
+  width: 20%;
+}

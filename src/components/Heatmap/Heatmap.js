@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, TableBody } from "semantic-ui-react";
 import CountryFilter from "../CountryFilter/CountryFilter";
+import styles from "./Heatmap.module.css";
 
 const Heatmap = props => {
   //https://gist.github.com/mlocati/7210513
@@ -32,17 +32,17 @@ const Heatmap = props => {
   );
 
   return (
-    <Table>
-      <TableBody>
+    <table className={styles.table}>
+      <tbody>
         {sortedData.map(countryData => {
           return (
-            <Table.Row key={countryData.country}>
-              <Table.Cell>
+            <tr className={styles.row} key={countryData.country}>
+              <td className={styles.countryFilter}>
                 <CountryFilter
                   label={countryData.country}
                   onChangeHandler={props.onChangeCountriesHandler}
                 />
-              </Table.Cell>
+              </td>
               {countryData.active
                 ? props.years.map(year => {
                     const countArr = countryData.data
@@ -58,7 +58,7 @@ const Heatmap = props => {
                       : "lightgrey";
 
                     return (
-                      <Table.Cell
+                      <td
                         key={year}
                         style={{
                           backgroundColor: backgroundColor
@@ -67,11 +67,11 @@ const Heatmap = props => {
                     );
                   })
                 : null}
-            </Table.Row>
+            </tr>
           );
         })}
-      </TableBody>
-    </Table>
+      </tbody>
+    </table>
   );
 };
 
