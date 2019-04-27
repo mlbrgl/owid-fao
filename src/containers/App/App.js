@@ -1,17 +1,18 @@
 import {
   categories,
+  countries,
   years,
   getActiveData,
   getCategoryBounds
 } from "./../Parser/Parser";
 import {} from "./../Parser/Parser";
 import React, { Component } from "react";
-import "./App.css";
+import styles from "./App.module.css";
 import "semantic-ui-css/semantic.min.css";
 import Heatmap from "../../components/Heatmap/Heatmap";
 
 import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
-import { Message } from "semantic-ui-react";
+import { Message, Radio } from "semantic-ui-react";
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,11 @@ class App extends Component {
     this.setState({ activeCountries });
   };
 
+  onToggleAllCountriesHandler = (event, { checked }) => {
+    const activeCountries = checked ? countries : [];
+    this.setState({ activeCountries });
+  };
+
   render() {
     const categoryBounds = getCategoryBounds(this.state.activeCategory);
     const activeData = getActiveData(
@@ -78,6 +84,12 @@ class App extends Component {
           categories={categories}
           onChangeHandler={this.onChangeCategoryHandler}
           activeCategory={this.state.activeCategory}
+        />
+        <Radio
+          label="Select all"
+          onChange={this.onToggleAllCountriesHandler}
+          toggle
+          className={styles.selectAll}
         />
         <Heatmap
           data={activeData}

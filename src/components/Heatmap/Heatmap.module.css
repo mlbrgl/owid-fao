@@ -1,6 +1,11 @@
 .table {
   width: 100%;
-  border-spacing: 1px 5px;
+  border-collapse: collapse;
+}
+
+.dataCell {
+  border: 1px solid white;
+  border-top: none;
 }
 
 .row {

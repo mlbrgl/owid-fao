@@ -63,6 +63,7 @@ const Heatmap = props => {
                         style={{
                           backgroundColor: backgroundColor
                         }}
+                        className={styles.dataCell}
                       />
                     );
                   })
