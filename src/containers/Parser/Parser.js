@@ -1,5 +1,5 @@
 import data from "../../data/diet.json";
-import memoize from "memoize-one";
+import memoize from "fast-memoize";
 
 const ANIMAL = "Animal";
 const PLANT = "Plant";
@@ -43,18 +43,22 @@ const getCategoryCount = (dataPoint, category) => {
   return count;
 };
 
+const getCountryData = memoize((country, activeCategory) => {
+  return data
+    .filter(dataPoint => dataPoint["Country"] === country)
+    .map(dataPoint => {
+      return {
+        year: dataPoint.Year,
+        count: getCategoryCount(dataPoint, activeCategory)
+      };
+    });
+});
+
 const getActiveData = (activeCountries, activeCategory) => {
   return countries.map(country => {
     const countryIsActive = activeCountries.indexOf(country) !== -1;
     const countryData = countryIsActive
-      ? data
-          .filter(dataPoint => dataPoint["Country"] === country)
-          .map(dataPoint => {
-            return {
-              year: dataPoint.Year,
-              count: getCategoryCount(dataPoint, activeCategory)
-            };
-          })
+      ? getCountryData(country, activeCategory)
       : null;
 
     return {
