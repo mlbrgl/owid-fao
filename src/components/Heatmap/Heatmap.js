@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import CountryFilter from "../CountryFilter/CountryFilter";
 import styles from "./Heatmap.module.css";
+import DataCell from "../DataCell/DataCell";
 
 const Heatmap = props => {
   //https://gist.github.com/mlocati/7210513
@@ -59,12 +60,10 @@ const Heatmap = props => {
                       : "lightgrey";
 
                     return (
-                      <td
+                      <DataCell
                         key={year}
-                        style={{
-                          backgroundColor: backgroundColor
-                        }}
-                        className={styles.dataCell}
+                        backgroundColor={backgroundColor}
+                        content={`${year}: ${countArr[0]}`}
                       />
                     );
                   })

@@ -1,0 +1,10 @@
+.dataCell {
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+  border-top: none;
+}
+
+.dataCell:hover {
+  background-color: lightblue !important;
+}
