@@ -82,12 +82,13 @@ class App extends Component {
             >
               <Popup.Content>
                 <p>
-                  The color scale shows the amount of calories consumed in the
-                  selected category.
+                  The color opacity shows the amount of calories consumed in the
+                  selected category. Hover over a cell to see the underlying
+                  data.
                 </p>
                 <p>
-                  <strong>Red is less, green is more.</strong> An evolution from
-                  red to green shows an increase in the amount of calories
+                  <strong>A lighter shade means less.</strong> An evolution from
+                  light to dark shows an increase in the amount of calories
                   consumed in the current category, and vice-versa.
                 </p>
               </Popup.Content>
@@ -103,6 +104,7 @@ class App extends Component {
         <Heatmap
           data={activeData}
           bounds={categoryBounds}
+          backgroundColor={this.state.activeCategory.backgroundColor}
           years={years}
           onChangeCountriesHandler={this.onChangeCountriesHandler}
         />

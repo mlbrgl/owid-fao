@@ -5,32 +5,10 @@ import styles from "./Heatmap.module.css";
 import DataCell from "../DataCell/DataCell";
 
 const Heatmap = props => {
-  //https://gist.github.com/mlocati/7210513
-  function perc2color(perc, min, max) {
-    var base = max - min;
-
-    if (base === 0) {
-      perc = 100;
-    } else {
-      perc = ((perc - min) / base) * 100;
-    }
-    var r,
-      g,
-      b = 0;
-    if (perc < 50) {
-      r = 255;
-      g = Math.round(5.1 * perc);
-    } else {
-      g = 255;
-      r = Math.round(510 - 5.1 * perc);
-    }
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return "#" + ("000000" + h.toString(16)).slice(-6);
-  }
-
   const sortedData = [...props.data].sort(
     (countryDataA, countryDataB) => +countryDataB.active - +countryDataA.active
   );
+  const colorPrefix = `rgba(${props.backgroundColor.join(",")},`;
 
   return (
     <table className={styles.table}>
@@ -52,13 +30,12 @@ const Heatmap = props => {
                       .map(data => data.count);
 
                     const backgroundColor = countArr.length
-                      ? perc2color(
-                          countArr[0],
-                          props.bounds.min,
-                          props.bounds.max
-                        )
+                      ? colorPrefix +
+                        (((countArr[0] - props.bounds.min) * 0.8) /
+                          (props.bounds.max - props.bounds.min) +
+                          0.2) +
+                        ")"
                       : "lightgrey";
-
                     return (
                       <DataCell
                         key={year}
@@ -94,7 +71,8 @@ Heatmap.propTypes = {
     max: PropTypes.number
   }).isRequired,
   onChangeCountriesHandler: PropTypes.func.isRequired,
-  years: PropTypes.arrayOf(PropTypes.number).isRequired
+  years: PropTypes.arrayOf(PropTypes.number).isRequired,
+  backgroundColor: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
 export default Heatmap;

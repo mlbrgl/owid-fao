@@ -9,7 +9,9 @@ const ALCOHOL = "Alcoholic Beverages";
 const categories = [
   {
     name: ANIMAL,
-    items: ["Meat", "Dairy & Eggs"]
+    items: ["Meat", "Dairy & Eggs"],
+    backgroundColor: [255, 65, 54],
+    color: [255, 255, 255]
   },
   {
     name: PLANT,
@@ -18,15 +20,21 @@ const categories = [
       "Pulses",
       "Starchy Roots",
       "Fruit and Vegetables"
-    ]
+    ],
+    backgroundColor: [46, 204, 64],
+    color: [0, 0, 0]
   },
   {
     name: SUGAR,
-    items: [SUGAR]
+    items: [SUGAR],
+    backgroundColor: [255, 133, 27],
+    color: [0, 0, 0]
   },
   {
     name: ALCOHOL,
-    items: [ALCOHOL]
+    items: [ALCOHOL],
+    backgroundColor: [133, 20, 75],
+    color: [255, 255, 255]
   }
 ];
 

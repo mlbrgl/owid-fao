@@ -10,12 +10,19 @@ const CategoryFilter = props => {
   return (
     <Menu.Menu>
       {props.categories.map(category => {
+        const isActive = props.activeCategory.name === category.name;
         return (
           <Menu.Item
             key={category.name}
             name={category.name}
-            active={props.activeCategory.name === category.name}
+            active={isActive}
             onClick={onChangeHandler}
+            style={{
+              backgroundColor: isActive
+                ? `rgb(${category.backgroundColor.join(",")})`
+                : "",
+              color: isActive ? `rgb(${category.color.join(",")})` : ""
+            }}
           />
         );
       })}
@@ -26,7 +33,9 @@ const CategoryFilter = props => {
 CategoryFilter.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string
+      name: PropTypes.string,
+      color: PropTypes.arrayOf(PropTypes.number),
+      backgroundColor: PropTypes.arrayOf(PropTypes.number).isRequired
     })
   ).isRequired,
   activeCategory: PropTypes.shape({
