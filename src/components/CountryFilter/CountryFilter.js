@@ -1,20 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Radio } from "semantic-ui-react";
 
 const CountryFilter = props => {
-  const onChangeHandler = (event, { value, checked }) => {
-    props.onChangeHandler(value, checked);
+  const onChangeHandler = event => {
+    props.onChangeHandler(event.target.name, event.target.checked);
   };
 
   return (
-    <Radio
-      label={props.label}
-      onChange={onChangeHandler}
-      value={props.label}
-      checked={props.active}
-      toggle
-    />
+    <div className="ui toggle checkbox">
+      <input
+        type="checkbox"
+        onChange={onChangeHandler}
+        name={props.label}
+        checked={props.active}
+      />
+      <label>{props.label}</label>
+    </div>
   );
 };
 
