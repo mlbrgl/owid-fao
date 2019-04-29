@@ -1,29 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Radio } from "semantic-ui-react";
-import styles from "./CategoryFilter.module.css";
+import { Menu } from "semantic-ui-react";
 
 const CategoryFilter = props => {
-  const onChangeHandler = (event, { value }) => {
-    props.onChangeHandler(value);
+  const onChangeHandler = (event, { name }) => {
+    props.onChangeHandler(name);
   };
 
   return (
-    <Form>
+    <Menu.Menu>
       {props.categories.map(category => {
         return (
-          <Form.Field key={category.name} className={styles.field}>
-            <Radio
-              label={category.name}
-              name="filters"
-              value={category.name}
-              checked={props.activeCategory.name === category.name}
-              onChange={onChangeHandler}
-            />
-          </Form.Field>
+          <Menu.Item
+            key={category.name}
+            name={category.name}
+            active={props.activeCategory.name === category.name}
+            onClick={onChangeHandler}
+          />
         );
       })}
-    </Form>
+    </Menu.Menu>
   );
 };
 

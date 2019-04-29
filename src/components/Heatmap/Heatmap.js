@@ -63,7 +63,7 @@ const Heatmap = props => {
                       <DataCell
                         key={year}
                         backgroundColor={backgroundColor}
-                        content={`${year}: ${countArr[0]}`}
+                        content={`${year}: ${countArr[0]} kcal`}
                       />
                     );
                   })

@@ -5,14 +5,12 @@ import {
   getActiveData,
   getCategoryBounds
 } from "./../Parser/Parser";
-import {} from "./../Parser/Parser";
 import React, { Component } from "react";
+import Heatmap from "../../components/Heatmap/Heatmap";
+import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
+import { Radio, Menu, Popup, Icon } from "semantic-ui-react";
 import styles from "./App.module.css";
 import "semantic-ui-css/semantic.min.css";
-import Heatmap from "../../components/Heatmap/Heatmap";
-
-import CategoryFilter from "../../components/CategoryFilter/CategoryFilter";
-import { Message, Radio } from "semantic-ui-react";
 
 class App extends Component {
   constructor(props) {
@@ -68,23 +66,34 @@ class App extends Component {
     return (
       <>
         <h1>Evolution of diet composition between 1961 and 2013 </h1>
-        <Message>
-          <Message.Header>How to read</Message.Header>
-          <p>
-            The color scale shows the amount of calories consumed in the
-            selected category ({this.state.activeCategory.name}).
-          </p>
-          <p>
-            <strong>Red is less, green is more.</strong> An evolution from red
-            to green shows an increase in the amount of calories consumed in the
-            current category, and vice-versa.
-          </p>
-        </Message>
-        <CategoryFilter
-          categories={categories}
-          onChangeHandler={this.onChangeCategoryHandler}
-          activeCategory={this.state.activeCategory}
-        />
+        <div className={styles.menuWrapper}>
+          <Menu compact>
+            <CategoryFilter
+              categories={categories}
+              onChangeHandler={this.onChangeCategoryHandler}
+              activeCategory={this.state.activeCategory}
+            />
+            <Popup
+              trigger={
+                <Menu.Item>
+                  <Icon name="question circle" />
+                </Menu.Item>
+              }
+            >
+              <Popup.Content>
+                <p>
+                  The color scale shows the amount of calories consumed in the
+                  selected category.
+                </p>
+                <p>
+                  <strong>Red is less, green is more.</strong> An evolution from
+                  red to green shows an increase in the amount of calories
+                  consumed in the current category, and vice-versa.
+                </p>
+              </Popup.Content>
+            </Popup>
+          </Menu>
+        </div>
         <Radio
           label="Select all"
           onChange={this.onToggleAllCountriesHandler}
